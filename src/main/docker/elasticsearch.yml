@@ -1,0 +1,10 @@
+version: '2'
+services:
+    findmusic-elasticsearch:
+        image: elasticsearch:6.3.2
+        # volumes:
+        #     - ~/volumes/jhipster/findmusic/elasticsearch/:/usr/share/elasticsearch/data/
+        ports:
+            - 9200:9200
+            - 9300:9300
+        command: -Enetwork.host=0.0.0.0 -Ediscovery.type=single-node
