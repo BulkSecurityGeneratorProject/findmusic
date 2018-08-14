@@ -14,9 +14,12 @@ RUN cd /tmp/build && mvn clean package -Dmaven.test.skip=true \
         #清理编译痕迹
         && cd / && rm -rf /tmp/build
 VOLUME /tmp
-COPY src/main/docker/entrypoint.sh ./
+
 # 复制数据库初始化脚本create_table.sql到/docker-entrypoint-initdb.d文件夹下
 COPY sql/create_table.sql /docker-entrypoint-initdb.d
+
+ADD src/main/docker/entrypoint.sh ./
+RUN chmod 755 entrypoint.sh
 
 ENTRYPOINT ["./entrypoint.sh"]
 EXPOSE 8080
