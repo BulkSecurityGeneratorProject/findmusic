@@ -2,9 +2,7 @@ FROM hub.c.163.com/wuxukun/maven-aliyun:3-jdk-8
 
 ENV SPRING_OUTPUT_ANSI_ENABLED=ALWAYS \
     JHIPSTER_SLEEP=0 \
-    JAVA_OPTS="-Dspring.profiles.active=stg" \
-    M2_HOME="/usr/local/maven" \
-    MAVEN_HOME="/usr/local/maven"
+    JAVA_OPTS="-Dspring.profiles.active=stg"
     
 ADD pom.xml /tmp/build/
  
