@@ -4,7 +4,9 @@ FROM mysql:5.7.20
 
 ENV SPRING_OUTPUT_ANSI_ENABLED=ALWAYS \
     JHIPSTER_SLEEP=0 \
-    JAVA_OPTS="-Dspring.profiles.active=stg"
+    JAVA_OPTS="-Dspring.profiles.active=stg" \
+    M2_HOME="/usr/local/maven" \
+    MAVEN_HOME="/usr/local/maven"
     
 ADD pom.xml /tmp/build/
  
