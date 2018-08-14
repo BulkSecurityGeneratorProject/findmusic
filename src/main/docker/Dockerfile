@@ -16,8 +16,7 @@ RUN mvn clean package -Dmaven.skip.test=true \
         && mv target/*.war /app.war
 ADD *.war app.war
 
-cd ./src/main/docker
-ADD entrypoint.sh entrypoint.sh
+ADD ./src/main/docker/entrypoint.sh entrypoint.sh
 RUN chmod 755 entrypoint.sh && chown jhipster:jhipster entrypoint.sh
 USER jhipster
 
