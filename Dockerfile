@@ -1,19 +1,20 @@
-FROM openjdk:8-jre-alpine
 FROM hub.c.163.com/wuxukun/maven-aliyun:3-jdk-8
-FROM mysql:5.7.20
+
 ENV SPRING_OUTPUT_ANSI_ENABLED=ALWAYS \
     JHIPSTER_SLEEP=0 \
-    JAVA_OPTS="-Dspring.profiles.active=stg"
+    JAVA_OPTS="-Dspring.profiles.active=stg" \
+    M2_HOME="/usr/local/maven" \
+    MAVEN_HOME="/usr/local/maven"
     
-
-
-
-
-
-ENV JAVA_APP_JAR findmusic.war 
-ADD target/$JAVA_APP_JAR /deployments
-
+ADD pom.xml /tmp/build/
+ 
+ADD src /tmp/build/src
+        #构建应用
+RUN cd /tmp/build && mvn clean package \
+        #拷贝编译结果到指定目录
+        && mv target/*.war /app.war \
+        #清理编译痕迹
+        && cd / && rm -rf /tmp/build
+VOLUME /tmp
 EXPOSE 8080
-ENV JAVA_MAX_MEM_RATIO=50
-ENV CONTAINER_MAX_MEMORY=314572800
-
+ENTRYPOINT ["java","-jar","/app.war"]
