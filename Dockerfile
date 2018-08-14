@@ -14,5 +14,8 @@ RUN cd /tmp/build && mvn clean package -Dmaven.test.skip=true \
         #清理编译痕迹
         && cd / && rm -rf /tmp/build
 VOLUME /tmp
+# 复制数据库初始化脚本create_table.sql到/docker-entrypoint-initdb.d文件夹下
+COPY sql/create_table.sql /docker-entrypoint-initdb.d
+
 EXPOSE 8080
 ENTRYPOINT ["java","-jar","/app.war"]
