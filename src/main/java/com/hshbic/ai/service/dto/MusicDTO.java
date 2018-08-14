@@ -6,6 +6,7 @@ import org.springframework.data.elasticsearch.annotations.Document;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.hshbic.ai.config.Constants;
 
 /**
  * A DTO representing a MusicDTO.
@@ -25,7 +26,7 @@ public class MusicDTO {
 	String songAlia2;//歌曲别名2
 	String version;//版本
 	String extra;//附加字段
-
+	String playurl;//播放链接
     public MusicDTO() {
         // Empty constructor needed for Jackson.
     }
@@ -140,6 +141,14 @@ public class MusicDTO {
 	public void setExtra(String extra) {
 		this.extra = extra;
 	}
+	
+	
+	//url+/港台/女/99_汪明荃/烁登场.m4a
+	public String getPlayurl() {
+		return Constants.DOMAIN_URL+"/"+area+"/"+cate+"/"+singer+"/"+song+".m4a";
+	}
+
+	
 
 	@Override
 	public String toString() {
