@@ -8,7 +8,7 @@ ADD pom.xml /tmp/build/
  
 ADD src /tmp/build/src
         #构建应用
-RUN cd /tmp/build && mvn clean package -Dmaven.skip.test=true \
+RUN cd /tmp/build && mvn clean package -Dmaven.test.skip=true \
         #拷贝编译结果到指定目录
         && mv target/*.war /app.war \
         #清理编译痕迹
