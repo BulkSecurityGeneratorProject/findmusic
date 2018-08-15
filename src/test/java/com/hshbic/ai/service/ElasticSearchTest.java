@@ -12,6 +12,9 @@ import com.hshbic.ai.service.util.RandomUtil;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.search.sort.SortBuilder;
+import org.elasticsearch.search.sort.SortBuilders;
+import org.elasticsearch.search.sort.SortOrder;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,6 +25,7 @@ import org.springframework.data.auditing.AuditingHandler;
 import org.springframework.data.auditing.DateTimeProvider;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.data.elasticsearch.core.query.SearchQuery;
@@ -80,6 +84,31 @@ public class ElasticSearchTest {
               System.out.println(MusicDTO.toString());
           }
     }
+    
+    
+    @Test
+    public void testSongs() {
+    	BoolQueryBuilder bqb = QueryBuilders.boolQuery();
+    	String songName = "大海";
+        bqb.must(QueryBuilders.termQuery("song.keyword",songName));
+        Pageable pageable = PageRequest.of(0, 10);
+        SortBuilder<?> sortBuilder = SortBuilders.fieldSort("score")
+                .order(SortOrder.ASC);
+        SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(bqb).withSort(sortBuilder).withPageable(pageable).build();
+        List<MusicDTO> musicDTOs = esTemplate.queryForList(searchQuery, MusicDTO.class);
+        System.out.println(musicDTOs);
+    }
 
- 
+    @Test
+    public void testSingers() {
+    	BoolQueryBuilder bqb = QueryBuilders.boolQuery();
+    	String singerName = "刘德华";
+        bqb.must(QueryBuilders.termQuery("singer.keyword",singerName));
+        Pageable pageable = PageRequest.of(0, 10);
+        SortBuilder<?> sortBuilder = SortBuilders.fieldSort("score")
+                .order(SortOrder.ASC);
+        SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(bqb).withSort(sortBuilder).withPageable(pageable).build();
+        List<MusicDTO> musicDTOs = esTemplate.queryForList(searchQuery, MusicDTO.class);
+        System.out.println(musicDTOs);
+    }
 }

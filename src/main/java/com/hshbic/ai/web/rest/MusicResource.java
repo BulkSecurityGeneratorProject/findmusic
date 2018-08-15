@@ -4,23 +4,31 @@ import java.util.List;
 
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.search.sort.SortBuilder;
+import org.elasticsearch.search.sort.SortBuilders;
+import org.elasticsearch.search.sort.SortOrder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.data.elasticsearch.core.query.SearchQuery;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.hshbic.ai.config.Constants;
 import com.hshbic.ai.service.dto.MusicDTO;
 
 @RestController
 @RequestMapping(value ="/ai-music-service/api/v1")
 public class MusicResource{
 	private static Logger log = LoggerFactory.getLogger(MusicResource.class);
+	
 	@Autowired
     private ElasticsearchTemplate esTemplate; 
 	
@@ -30,10 +38,16 @@ public class MusicResource{
 	 * @return 歌曲列表
 	 */
 	@RequestMapping(value = "/singers/{singerName}/songs", method = RequestMethod.GET)
-	public List<MusicDTO> singerAllSongs(@PathVariable String singerName) {
+	public List<MusicDTO> singerAllSongs(@PathVariable String singerName
+			,@RequestParam(defaultValue = "0") int pageNo
+			,@RequestParam(defaultValue = Constants.MUSIC_LIST_PAGESIZE) int pageSize) {
 	    BoolQueryBuilder bqb = QueryBuilders.boolQuery();
         bqb.must(QueryBuilders.termQuery("singer.keyword",singerName));
-        SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(bqb).build();
+        Pageable pageable = PageRequest.of(pageNo, pageSize);
+        SortBuilder<?> sortBuilder = SortBuilders.fieldSort("score")
+                .order(SortOrder.ASC);
+		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(bqb).withSort(sortBuilder)
+				.withPageable(pageable).build();
         List<MusicDTO> musicDTOs = esTemplate.queryForList(searchQuery, MusicDTO.class);
         log.info("singerName={},musicDTOs={}",singerName,musicDTOs);
 		return musicDTOs;
@@ -45,10 +59,16 @@ public class MusicResource{
 	 * @return 歌曲列表
 	 */
 	@RequestMapping(value = "/songs/{songName}", method = RequestMethod.GET)
-	public List<MusicDTO> song(@PathVariable String songName) {
+	public List<MusicDTO> song(@PathVariable String songName
+			,@RequestParam(defaultValue = "0") int pageNo
+			,@RequestParam(defaultValue = Constants.MUSIC_LIST_PAGESIZE) int pageSize) {
 		BoolQueryBuilder bqb = QueryBuilders.boolQuery();
         bqb.must(QueryBuilders.termQuery("song.keyword",songName));
-        SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(bqb).build();
+        Pageable pageable = PageRequest.of(pageNo, pageSize);
+        SortBuilder<?> sortBuilder = SortBuilders.fieldSort("score")
+                .order(SortOrder.ASC);
+        SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(bqb).withSort(sortBuilder)
+        		.withPageable(pageable).build();
         List<MusicDTO> musicDTOs = esTemplate.queryForList(searchQuery, MusicDTO.class);
         log.info("songName={},musicDTOs={}",songName,musicDTOs);
 		return musicDTOs;

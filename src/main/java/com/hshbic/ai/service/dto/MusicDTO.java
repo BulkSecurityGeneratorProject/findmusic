@@ -143,9 +143,9 @@ public class MusicDTO {
 	}
 	
 	
-	//url+/港台/女/99_汪明荃/烁登场.m4a
+	//url+/港台/女/99_汪明荃/闪烁登场.m4a
 	public String getPlayurl() {
-		return Constants.DOMAIN_URL+"/"+area+"/"+cate+"/"+singer+"/"+song+".m4a";
+		return Constants.MUSIC_DOMAIN_URL+"/"+area+"/"+cate+"/"+singer+"/"+song+".m4a";
 	}
 
 	
