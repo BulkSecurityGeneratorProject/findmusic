@@ -2,7 +2,7 @@ FROM java
 
 LABEL maintainer "bird"
 
-COPY /project/target/findmusic-0.0.1-SNAPSHOT.war /usr/src/myapp/findmusic-0.0.1-SNAPSHOT.war
+COPY /project/target/findmusic-0.0.1-SNAPSHOT.war /usr/src/myapp/app.war
 
 WORKDIR /usr/src/myapp/
 
@@ -10,5 +10,5 @@ ENV SPRING_OUTPUT_ANSI_ENABLED=ALWAYS \
     JHIPSTER_SLEEP=0 \
     JAVA_OPTS="-Dspring.profiles.active=stg"
     
-ENTRYPOINT java ${JAVA_OPTS} -Djava.security.egd=file:/dev/./urandom -jar "/app.war" "$@"
+ENTRYPOINT java ${JAVA_OPTS} -Djava.security.egd=file:/dev/./urandom -jar "app.war" "$@"
 EXPOSE 8080
