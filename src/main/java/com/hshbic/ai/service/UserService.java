@@ -1,5 +1,4 @@
 package com.hshbic.ai.service;
-import org.apache.commons.collections.ExtendedProperties;
 import com.hshbic.ai.domain.Authority;
 import com.hshbic.ai.domain.User;
 import com.hshbic.ai.repository.AuthorityRepository;

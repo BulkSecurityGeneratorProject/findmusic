@@ -1,15 +1,7 @@
 package com.hshbic.ai.service;
 
-import com.hshbic.ai.FindmusicApp;
-import com.hshbic.ai.config.Constants;
-import com.hshbic.ai.domain.User;
-import com.hshbic.ai.repository.search.UserSearchRepository;
-import com.hshbic.ai.repository.UserRepository;
-import com.hshbic.ai.service.dto.MusicDTO;
-import com.hshbic.ai.service.dto.UserDTO;
-import com.hshbic.ai.service.util.RandomUtil;
+import java.util.List;
 
-import org.apache.commons.lang3.RandomStringUtils;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.sort.SortBuilder;
@@ -18,32 +10,17 @@ import org.elasticsearch.search.sort.SortOrder;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.auditing.AuditingHandler;
-import org.springframework.data.auditing.DateTimeProvider;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.data.elasticsearch.core.query.SearchQuery;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
-import java.time.LocalDateTime;
-import java.util.Optional;
-import java.util.List;
-import java.util.Optional;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import com.hshbic.ai.FindmusicApp;
+import com.hshbic.ai.service.dto.MusicDTO;
 
 /**
  * Test class for the UserResource REST controller.
