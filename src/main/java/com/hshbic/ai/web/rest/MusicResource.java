@@ -25,7 +25,7 @@ import com.hshbic.ai.config.Constants;
 import com.hshbic.ai.service.dto.MusicDTO;
 
 @RestController
-@RequestMapping(value ="/ai-music-service/api/v1")
+@RequestMapping(value ="/ai-access/music-service/api/v1")
 public class MusicResource{
 	private static Logger log = LoggerFactory.getLogger(MusicResource.class);
 	
