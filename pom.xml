@@ -9,8 +9,12 @@
     <name>Findmusic</name>
 
     <repositories>
-        <!-- jhipster-needle-maven-repository -->
-    </repositories>
+		<repository>
+			<id>nexus-daocloud</id>
+			<name>Nexus daocloud</name>
+			<url>http://nexus.daocloud.io/repository/maven-public/</url>
+		</repository>
+	</repositories>
 
     <properties>
         <!-- Build properties -->

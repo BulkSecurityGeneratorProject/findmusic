@@ -2,7 +2,7 @@ FROM java
 
 LABEL maintainer "bird"
 
-COPY /project/target/findmusic-0.0.1-SNAPSHOT.war /usr/src/myapp/app.war
+COPY /project/target/*.war /usr/src/myapp/app.war
 
 WORKDIR /usr/src/myapp/
 
