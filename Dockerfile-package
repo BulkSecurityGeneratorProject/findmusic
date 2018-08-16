@@ -5,5 +5,6 @@ LABEL maintainer "bird"
 WORKDIR /project
 ADD . /project
 
-RUN mvn package -Dmaven.test.skip=true -Pprod,swagger
+#-Pprod,swagger
+RUN mvn package -Dmaven.test.skip=true 
 CMD ["mvn"]
