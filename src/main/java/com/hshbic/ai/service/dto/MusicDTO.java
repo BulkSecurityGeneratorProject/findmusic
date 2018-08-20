@@ -1,5 +1,7 @@
 package com.hshbic.ai.service.dto;
 
+import java.io.Serializable;
+
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.springframework.data.elasticsearch.annotations.Document;
@@ -13,7 +15,9 @@ import com.hshbic.ai.config.Constants;
  */
 @JsonInclude(Include.NON_NULL)
 @Document(indexName="xiaou_music",type="music_list")
-public class MusicDTO {
+public class MusicDTO implements Serializable{
+	
+	private static final long serialVersionUID = 945037042675218715L;
 	Long id;
 	String area;//地域
 	String cate;//性别/类别

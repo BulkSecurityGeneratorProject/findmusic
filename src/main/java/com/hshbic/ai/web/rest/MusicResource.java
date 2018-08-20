@@ -40,7 +40,7 @@ public class MusicResource{
 	@RequestMapping(value = "/singers/{singerName}/songs", method = RequestMethod.GET)
 	public List<MusicDTO> singerAllSongs(@PathVariable String singerName
 			,@RequestParam(defaultValue = "0") int pageNo
-			,@RequestParam(defaultValue = Constants.MUSIC_LIST_PAGESIZE) int pageSize) {
+			,@RequestParam(defaultValue = Constants.DEFAULT_PAGE_SIZE) int pageSize) {
 	    BoolQueryBuilder bqb = QueryBuilders.boolQuery();
         bqb.must(QueryBuilders.termQuery("singer.keyword",singerName));
         Pageable pageable = PageRequest.of(pageNo, pageSize);
@@ -61,7 +61,7 @@ public class MusicResource{
 	@RequestMapping(value = "/songs/{songName}", method = RequestMethod.GET)
 	public List<MusicDTO> song(@PathVariable String songName
 			,@RequestParam(defaultValue = "0") int pageNo
-			,@RequestParam(defaultValue = Constants.MUSIC_LIST_PAGESIZE) int pageSize) {
+			,@RequestParam(defaultValue = Constants.DEFAULT_PAGE_SIZE) int pageSize) {
 		BoolQueryBuilder bqb = QueryBuilders.boolQuery();
         bqb.must(QueryBuilders.termQuery("song.keyword",songName));
         Pageable pageable = PageRequest.of(pageNo, pageSize);

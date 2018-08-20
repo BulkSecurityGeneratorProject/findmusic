@@ -16,7 +16,6 @@ import javax.annotation.PostConstruct;
 import java.net.InetAddress;
 import java.util.Arrays;
 import java.util.Collection;
-
 @SpringBootApplication
 @EnableConfigurationProperties({ ApplicationProperties.class})
 public class FindmusicApp {

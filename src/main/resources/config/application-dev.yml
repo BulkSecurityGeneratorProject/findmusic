@@ -67,7 +67,23 @@ spring:
         cache-duration: PT1S # 1 second, see the ISO 8601 standard
     thymeleaf:
         cache: false
-
+dubbo:
+    registry:
+        protocol: zookeeper
+        address: 192.168.40.210:2181
+        id: music-provider-01
+    protocol:
+        port: 12345
+        name: dubbo
+        id: dubbo
+        status: server
+    application:
+        name: music-dubbo-provider-name1
+        id: music-dubbo-provider-id1
+        qos-enable: true
+        qos-port: 22222
+    scan:
+        basePackages: com.hshbic.ai.dubbo.common
 # ===================================================================
 # To enable SSL, generate a certificate using:
 # keytool -genkey -alias findmusic -storetype PKCS12 -keyalg RSA -keysize 2048 -keystore keystore.p12 -validity 3650
@@ -140,5 +156,6 @@ jhipster:
 # More documentation is available at:
 # https://www.jhipster.tech/common-application-properties/
 # ===================================================================
-
-# application:
+app:
+    service:
+        version: 1.0.0 # 这个版本号必须跟consumer对应起来
