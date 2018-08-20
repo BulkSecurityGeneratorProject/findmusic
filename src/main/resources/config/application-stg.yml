@@ -69,7 +69,7 @@ spring:
 dubbo:
     registry:
         protocol: zookeeper
-        address: 192.168.0.1:2181
+        address: 192.168.16.1:2181
         id: music-registry-01
     protocol:
         port: 12345
