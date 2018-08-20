@@ -1,7 +1,7 @@
 version: '2'
 services:
     findmusic-app:
-        image: findmusic
+        image: daocloud.io/thunderbird521/findmusic:latest
         environment:
             # - _JAVA_OPTIONS=-Xmx512m -Xms256m
             - SPRING_PROFILES_ACTIVE=prod,swagger
@@ -18,3 +18,4 @@ services:
         extends:
             file: elasticsearch.yml
             service: findmusic-elasticsearch
+
