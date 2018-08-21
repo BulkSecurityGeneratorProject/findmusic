@@ -60,11 +60,13 @@ public class MusicService implements LocalCommonService{
         Map<String, Object> resultMap = new HashMap<String, Object>();
         //转为字符串存入
         if(musicDTOs.size()>0) {
-        	resultMap.put("content", JSONObject.toJSONString(musicDTOs));
+        	Map<String, Object> contentMap = new HashMap<String, Object>();
+            contentMap.put("response", JSONObject.toJSONString(musicDTOs));
+        	resultMap.put("content", contentMap);
         	resultMap.put("size", musicDTOs.size());
-        	resultMap.put("retCode", 0);
+        	resultMap.put("retCode", "0");
         }else {
-        	resultMap.put("retCode", 1000);
+        	resultMap.put("retCode", "1000");
         }
 		return resultMap;
 	}
