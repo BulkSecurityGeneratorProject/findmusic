@@ -20,7 +20,7 @@ logging:
         com.hshbic.ai: INFO
 spring:
     profiles:
-        active: pr
+        active: pre
         include: swagger
     devtools:
         restart:
