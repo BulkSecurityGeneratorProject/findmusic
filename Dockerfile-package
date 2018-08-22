@@ -1,6 +1,9 @@
 FROM maven:3.5.0-jdk-8-alpine
 LABEL maintainer "bird"
 
+# 复制数据库初始化脚本create_table.sql到/docker-entrypoint-initdb.d文件夹下
+COPY sql/*.sql /docker-entrypoint-initdb.d
+
 WORKDIR /project
 ADD . /project
 

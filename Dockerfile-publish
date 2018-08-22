@@ -4,9 +4,6 @@ LABEL maintainer "bird"
 
 COPY /project/target/*.war /usr/src/myapp/app.war
 
-# 复制数据库初始化脚本create_table.sql到/docker-entrypoint-initdb.d文件夹下
-COPY /project/sql/*.sql /docker-entrypoint-initdb.d
-
 WORKDIR /usr/src/myapp/
 
 ENV SPRING_OUTPUT_ANSI_ENABLED=ALWAYS \
