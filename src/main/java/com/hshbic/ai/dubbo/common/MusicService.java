@@ -17,6 +17,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.data.elasticsearch.core.query.SearchQuery;
+import org.springframework.util.StringUtils;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.alibaba.fastjson.JSONObject;
@@ -36,10 +37,10 @@ public class MusicService implements LocalCommonService{
 	public Map<String, Object> getService(Map<String, Object> params) {
 		log.info("dubbo req:{}",params);
 		BoolQueryBuilder bqb = QueryBuilders.boolQuery();
-		if(params.containsKey("singer")) {
+		if(!StringUtils.isEmpty(params.get("singer"))) {
 			bqb.must(QueryBuilders.termQuery("singer.keyword",(String)params.get("singer")));
 		}
-		if(params.containsKey("song")) {
+		if(!StringUtils.isEmpty(params.get("song"))) {
 			bqb.must(QueryBuilders.termQuery("song.keyword",(String)params.get("song")));
 		}
 		int pageNo=0;
