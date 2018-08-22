@@ -18,10 +18,9 @@ logging:
         ROOT: INFO
         io.github.jhipster: INFO
         com.hshbic.ai: INFO
-    file: /logs/ai/cloud/findmusic.log
 spring:
     profiles:
-        active: stg
+        active: pre
         include: swagger
     devtools:
         restart:
@@ -32,7 +31,7 @@ spring:
         serialization.indent_output: true
     datasource:
         type: com.zaxxer.hikari.HikariDataSource
-        url: jdbc:mysql://findmusic-mysql:3306/findmusic?useUnicode=true&characterEncoding=utf8&useSSL=false
+        url: jdbc:mysql://172.19.0.2:3306/findmusic?useUnicode=true&characterEncoding=utf8&useSSL=false
         username: root
         password: 
         hikari:
@@ -53,7 +52,7 @@ spring:
     data:
         elasticsearch:
             cluster-name: 
-            cluster-nodes: findmusic-elasticsearch:9300
+            cluster-nodes: 172.19.0.4:9300
             properties:
                 path:
                     logs: target/elasticsearch/log
@@ -67,6 +66,23 @@ spring:
         cache-duration: PT1S # 1 second, see the ISO 8601 standard
     thymeleaf:
         cache: false
+dubbo:
+    registry:
+        protocol: zookeeper
+        address: 172.17.6.53:2181,172.17.6.53:2182,172.17.6.53:2183,172.17.6.53:2184,172.17.6.53:2185
+        id: music-registry-01
+    protocol:
+        port: 12345
+        name: dubbo
+        id: dubbo
+        status: server
+    application:
+        name: music-provider-1
+        id: music-provider-1
+        qos-enable: true
+        qos-port: 22222
+    scan:
+        basePackages: com.hshbic.ai.dubbo.common
 
 # ===================================================================
 # To enable SSL, generate a certificate using:
@@ -141,4 +157,6 @@ jhipster:
 # https://www.jhipster.tech/common-application-properties/
 # ===================================================================
 
-# application:
+app:
+    service:
+        version: 1.0.0 # 这个版本号必须跟consumer对应起来
