@@ -70,6 +70,7 @@ public class MusicService implements LocalCommonService{
 			pageSize = (Integer)params.get("pageSize");
 		}
         Pageable pageable = PageRequest.of(pageNo, pageSize);
+    	log.info("bestSong pageable:{}",pageable);
         SortBuilder<?> sortBuilder = SortBuilders.fieldSort("score")
                 .order(SortOrder.ASC);
         SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(bqb).withSort(sortBuilder)
