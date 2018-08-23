@@ -152,7 +152,10 @@ public class MusicDTO implements Serializable{
 		return Constants.MUSIC_DOMAIN_URL+"/"+area+"/"+cate+"/"+singer+"/"+song+".m4a";
 	}
 
-	
+
+	public void setPlayurl(String playurl) {
+		this.playurl = playurl;
+	}
 
 	@Override
 	public String toString() {

@@ -58,7 +58,7 @@ public class MusicService implements LocalCommonService{
         		.withPageable(pageable).build();
         Page<MusicDTO> musicPage = esTemplate.queryForPage(searchQuery, MusicDTO.class);
         Map<String, Object> resultMap = new HashMap<String, Object>();
-        resultMap.put("content", musicPage.getContent());
+        resultMap.put("content", JSONObject.toJSONString(musicPage.getContent()));
         resultMap.put("totalElements" , musicPage.getTotalElements());
         resultMap.put("totalPages" , musicPage.getTotalPages());
         resultMap.put("number", musicPage.getNumber());
@@ -66,11 +66,12 @@ public class MusicService implements LocalCommonService{
         resultMap.put("first", musicPage.isFirst());
         resultMap.put("numberOfElements", musicPage.getNumberOfElements());
         resultMap.put("last", musicPage.isLast());
-        Map<String, Object> responseMap = new HashMap<String, Object>();
+        resultMap.put("retCode", "0");
+   /*     Map<String, Object> responseMap = new HashMap<String, Object>();
         //转为字符串存入
         responseMap.put("response", JSONObject.toJSONString(resultMap));
-        responseMap.put("retCode", "0");
-    	log.info("responseMap={}",responseMap);
+        responseMap.put("retCode", "0");*/
+    	log.info("resultMap={}",resultMap);
 		return resultMap;
 	}
 
