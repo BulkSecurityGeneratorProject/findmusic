@@ -12,7 +12,7 @@ public final class Constants {
     public static final String ANONYMOUS_USER = "anonymoususer";
     public static final String DEFAULT_LANGUAGE = "en";
     public static final String MUSIC_DOMAIN_URL = "http://120.27.157.19/ai-music-repo";
-    public static final String DEFAULT_PAGE_SIZE = "10";
+    public static final int DEFAULT_PAGE_SIZE = 10;
     private Constants() {
     }
 }
