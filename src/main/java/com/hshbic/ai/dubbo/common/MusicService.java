@@ -56,12 +56,21 @@ public class MusicService implements LocalCommonService{
                 .order(SortOrder.ASC);
         SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(bqb).withSort(sortBuilder)
         		.withPageable(pageable).build();
-        Page<MusicDTO> musicDTOs = esTemplate.queryForPage(searchQuery, MusicDTO.class);
-        log.info("musicDTOs={}",musicDTOs);
+        Page<MusicDTO> musicPage = esTemplate.queryForPage(searchQuery, MusicDTO.class);
         Map<String, Object> resultMap = new HashMap<String, Object>();
+        resultMap.put("content", musicPage.getContent());
+        resultMap.put("totalElements" , musicPage.getTotalElements());
+        resultMap.put("totalPages" , musicPage.getTotalPages());
+        resultMap.put("number", musicPage.getNumber());
+        resultMap.put("size" , musicPage.getSize());
+        resultMap.put("first", musicPage.isFirst());
+        resultMap.put("numberOfElements", musicPage.getNumberOfElements());
+        resultMap.put("last", musicPage.isLast());
+        Map<String, Object> responseMap = new HashMap<String, Object>();
         //转为字符串存入
-    	resultMap.put("response", JSONObject.toJSONString(musicDTOs));
-    	resultMap.put("retCode", "0");
+        responseMap.put("response", JSONObject.toJSONString(resultMap));
+        responseMap.put("retCode", "0");
+    	log.info("responseMap={}",responseMap);
 		return resultMap;
 	}
 

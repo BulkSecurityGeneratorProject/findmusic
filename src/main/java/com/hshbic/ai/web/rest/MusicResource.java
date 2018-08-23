@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.alibaba.fastjson.JSONObject;
 import com.hshbic.ai.config.Constants;
 import com.hshbic.ai.service.HrBestSongService;
 import com.hshbic.ai.service.dto.HrBestSongDTO;
@@ -62,7 +63,7 @@ sort，排序相关的信息，以property,property(,ASC|DESC)的方式组织，
 		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(bqb).withSort(sortBuilder)
 				.withPageable(pageable).build();
 		Page<MusicDTO> musicDTOs = esTemplate.queryForPage(searchQuery, MusicDTO.class);
-        log.info("singerName={},musicDTOs={}",singerName,musicDTOs);
+        log.info("-----------{}", musicDTOs.toString());
 		return musicDTOs;
 	}
 	
