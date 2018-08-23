@@ -22,6 +22,8 @@ import org.springframework.util.StringUtils;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.alibaba.fastjson.JSONObject;
 import com.hshbic.ai.config.Constants;
+import com.hshbic.ai.service.HrBestSongService;
+import com.hshbic.ai.service.dto.HrBestSongDTO;
 import com.hshbic.ai.service.dto.MusicDTO;
 @Service(
         version = "${app.service.version}",
@@ -33,21 +35,38 @@ public class MusicService implements LocalCommonService{
 	private static Logger log = LoggerFactory.getLogger(MusicService.class);
 	@Autowired
     private ElasticsearchTemplate esTemplate; 
+	@Autowired
+    private HrBestSongService bestSongService; 
 	@Override
 	public Map<String, Object> getService(Map<String, Object> params) {
 		log.info("dubbo req:{}",params);
 		BoolQueryBuilder bqb = QueryBuilders.boolQuery();
+		boolean randomFlag = true;
 		if(!StringUtils.isEmpty(params.get("singer"))) {
 			bqb.must(QueryBuilders.termQuery("singer.keyword",(String)params.get("singer")));
+			randomFlag = false;
 		}
 		if(!StringUtils.isEmpty(params.get("song"))) {
 			bqb.must(QueryBuilders.termQuery("song.keyword",(String)params.get("song")));
+			randomFlag = false;
+		}
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		//歌手与歌曲都为空则返回云端精选100首
+		if(randomFlag) {
+			int returnSize = 100;
+			Page<HrBestSongDTO> bestSongPage = bestSongService.findAllByType(PageRequest.of(0, returnSize),"cloud");
+			resultMap.put("find", "N");
+			resultMap.put("content", JSONObject.toJSONString(bestSongPage.getContent()));
+			resultMap.put("numberOfElements" ,bestSongPage.getNumberOfElements());
+			return resultMap;
 		}
 		int pageNo=0;
 		int pageSize = Constants.DEFAULT_PAGE_SIZE;
+		log.info("params.containsKey(\"pageNo\"):{}",params.containsKey("pageNo"));
 		if(params.containsKey("pageNo")) {
 			pageNo = (Integer)params.get("pageNo");
 		}
+		log.info("params.containsKey(\"pageSize\"):{}",params.containsKey("pageSize"));
 		if(params.containsKey("pageSize")) {
 			pageSize = (Integer)params.get("pageSize");
 		}
@@ -57,7 +76,8 @@ public class MusicService implements LocalCommonService{
         SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(bqb).withSort(sortBuilder)
         		.withPageable(pageable).build();
         Page<MusicDTO> musicPage = esTemplate.queryForPage(searchQuery, MusicDTO.class);
-        Map<String, Object> resultMap = new HashMap<String, Object>();
+       
+        resultMap.put("find", "Y");
         resultMap.put("content", JSONObject.toJSONString(musicPage.getContent()));
         resultMap.put("totalElements" , musicPage.getTotalElements());
         resultMap.put("totalPages" , musicPage.getTotalPages());
@@ -67,6 +87,7 @@ public class MusicService implements LocalCommonService{
         resultMap.put("numberOfElements", musicPage.getNumberOfElements());
         resultMap.put("last", musicPage.isLast());
         resultMap.put("retCode", "0");
+        
    /*     Map<String, Object> responseMap = new HashMap<String, Object>();
         //转为字符串存入
         responseMap.put("response", JSONObject.toJSONString(resultMap));
