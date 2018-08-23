@@ -45,11 +45,11 @@ public class MusicService implements LocalCommonService{
 		}
 		int pageNo=0;
 		int pageSize = Constants.DEFAULT_PAGE_SIZE;
-		if(params.containsKey("page")) {
-			pageNo = (Integer)params.get("page");
+		if(params.containsKey("pageNo")) {
+			pageNo = (Integer)params.get("pageNo");
 		}
-		if(params.containsKey("size")) {
-			pageSize = (Integer)params.get("size");
+		if(params.containsKey("pageSize")) {
+			pageSize = (Integer)params.get("pageSize");
 		}
         Pageable pageable = PageRequest.of(pageNo, pageSize);
         SortBuilder<?> sortBuilder = SortBuilders.fieldSort("score")
@@ -61,8 +61,8 @@ public class MusicService implements LocalCommonService{
         resultMap.put("content", JSONObject.toJSONString(musicPage.getContent()));
         resultMap.put("totalElements" , musicPage.getTotalElements());
         resultMap.put("totalPages" , musicPage.getTotalPages());
-        resultMap.put("number", musicPage.getNumber());
-        resultMap.put("size" , musicPage.getSize());
+        resultMap.put("pageNo", musicPage.getNumber());
+        resultMap.put("pageSize" , musicPage.getSize());
         resultMap.put("first", musicPage.isFirst());
         resultMap.put("numberOfElements", musicPage.getNumberOfElements());
         resultMap.put("last", musicPage.isLast());
