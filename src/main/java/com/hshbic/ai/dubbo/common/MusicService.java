@@ -58,6 +58,7 @@ public class MusicService implements LocalCommonService{
 			resultMap.put("find", "N");
 			resultMap.put("content", JSONObject.toJSONString(bestSongPage.getContent()));
 			resultMap.put("numberOfElements" ,bestSongPage.getNumberOfElements());
+			log.info("bestSong resultMap:{}",resultMap);
 			return resultMap;
 		}
 		int pageNo=0;
