@@ -42,11 +42,11 @@ public class MusicService implements LocalCommonService{
 		log.info("dubbo req:{}",params);
 		BoolQueryBuilder bqb = QueryBuilders.boolQuery();
 		boolean randomFlag = true;
-		if(!StringUtils.isEmpty(params.get("singer"))) {
+		if(null==params.get("singer")) {
 			bqb.must(QueryBuilders.termQuery("singer.keyword",(String)params.get("singer")));
 			randomFlag = false;
 		}
-		if(!StringUtils.isEmpty(params.get("song"))) {
+		if(null==params.get("song")) {
 			bqb.must(QueryBuilders.termQuery("song.keyword",(String)params.get("song")));
 			randomFlag = false;
 		}
@@ -62,11 +62,9 @@ public class MusicService implements LocalCommonService{
 		}
 		int pageNo=0;
 		int pageSize = Constants.DEFAULT_PAGE_SIZE;
-		log.info("params.containsKey(\"pageNo\"):{}",params.containsKey("pageNo"));
 		if(params.containsKey("pageNo")) {
 			pageNo = (Integer)params.get("pageNo");
 		}
-		log.info("params.containsKey(\"pageSize\"):{}",params.containsKey("pageSize"));
 		if(params.containsKey("pageSize")) {
 			pageSize = (Integer)params.get("pageSize");
 		}
