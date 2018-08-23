@@ -50,14 +50,21 @@ public class MusicService implements LocalCommonService{
 			bqb.must(QueryBuilders.termQuery("song.keyword",(String)params.get("song")));
 			randomFlag = false;
 		}
+		String source = null;
+		String paramSource = (String)params.get("source");
+		if(!StringUtils.isEmpty(paramSource)&&!"NA".equals(paramSource)) {
+			source = paramSource;
+		}
 		Map<String, Object> resultMap = new HashMap<String, Object>();
-		//歌手与歌曲都为空则返回云端精选100首
-		if(randomFlag) {
+		if(source!=null||randomFlag) {//歌手与歌曲都为空则返回云端精选100首
 			int returnSize = 100;
-			Page<HrBestSongDTO> bestSongPage = bestSongService.findAllByType(PageRequest.of(0, returnSize),"cloud");
+			Page<HrBestSongDTO> bestSongPage = bestSongService.findAllByType(PageRequest.of(0, returnSize),source);
 			resultMap.put("isFree", Boolean.TRUE);
-			resultMap.put("content", JSONObject.toJSONString(bestSongPage.getContent()));
-			resultMap.put("numberOfElements" ,bestSongPage.getNumberOfElements());
+			resultMap.put("content", JSONObject.toJSON(bestSongPage.getContent()));
+			resultMap.put("first", bestSongPage.isFirst());
+		    resultMap.put("numberOfElements", bestSongPage.getNumberOfElements());
+		    resultMap.put("last", bestSongPage.isLast());
+			resultMap.put("totalElements" , bestSongPage.getTotalElements());
 			log.info("bestSong resultMap:{}",resultMap);
 			return resultMap;
 		}
@@ -86,7 +93,6 @@ public class MusicService implements LocalCommonService{
         resultMap.put("first", musicPage.isFirst());
         resultMap.put("numberOfElements", musicPage.getNumberOfElements());
         resultMap.put("last", musicPage.isLast());
-        resultMap.put("retCode", "0");
         
    /*     Map<String, Object> responseMap = new HashMap<String, Object>();
         //转为字符串存入
