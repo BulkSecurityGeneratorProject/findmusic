@@ -42,11 +42,11 @@ public class MusicService implements LocalCommonService{
 		log.info("dubbo req:{}",params);
 		BoolQueryBuilder bqb = QueryBuilders.boolQuery();
 		boolean randomFlag = true;
-		if(null!=params.get("singer")) {
+		if(!StringUtils.isEmpty(params.get("singer"))) {
 			bqb.must(QueryBuilders.termQuery("singer.keyword",(String)params.get("singer")));
 			randomFlag = false;
 		}
-		if(null!=params.get("song")) {
+		if(!StringUtils.isEmpty(params.get("song"))) {
 			bqb.must(QueryBuilders.termQuery("song.keyword",(String)params.get("song")));
 			randomFlag = false;
 		}
