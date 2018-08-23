@@ -55,7 +55,7 @@ public class MusicService implements LocalCommonService{
 		if(randomFlag) {
 			int returnSize = 100;
 			Page<HrBestSongDTO> bestSongPage = bestSongService.findAllByType(PageRequest.of(0, returnSize),"cloud");
-			resultMap.put("find", "N");
+			resultMap.put("isFree", Boolean.TRUE);
 			resultMap.put("content", JSONObject.toJSONString(bestSongPage.getContent()));
 			resultMap.put("numberOfElements" ,bestSongPage.getNumberOfElements());
 			log.info("bestSong resultMap:{}",resultMap);
@@ -77,8 +77,8 @@ public class MusicService implements LocalCommonService{
         		.withPageable(pageable).build();
         Page<MusicDTO> musicPage = esTemplate.queryForPage(searchQuery, MusicDTO.class);
        
-        resultMap.put("find", "Y");
-        resultMap.put("content", JSONObject.toJSONString(musicPage.getContent()));
+        resultMap.put("isFree", Boolean.FALSE);
+        resultMap.put("content", JSONObject.toJSON(musicPage.getContent()));
         resultMap.put("totalElements" , musicPage.getTotalElements());
         resultMap.put("totalPages" , musicPage.getTotalPages());
         resultMap.put("pageNo", musicPage.getNumber());
