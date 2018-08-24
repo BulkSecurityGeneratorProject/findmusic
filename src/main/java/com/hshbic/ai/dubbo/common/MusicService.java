@@ -58,7 +58,7 @@ public class MusicService implements LocalCommonService{
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		if(source!=null||randomFlag) {//歌手与歌曲都为空则返回云端精选100首
 			int returnSize = 100;
-			Page<HrBestSongDTO> bestSongPage = bestSongService.findAllByType(PageRequest.of(0, returnSize),source);
+			Page<HrBestSongDTO> bestSongPage = bestSongService.findAllByType(PageRequest.of(0, returnSize),source==null?"cloud":source);
 			resultMap.put("isFree", Boolean.TRUE);
 			resultMap.put("content", JSONObject.toJSON(bestSongPage.getContent()));
 			resultMap.put("first", bestSongPage.isFirst());

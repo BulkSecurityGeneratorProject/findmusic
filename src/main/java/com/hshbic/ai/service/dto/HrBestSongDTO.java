@@ -4,12 +4,6 @@ import java.io.Serializable;
 import java.time.Instant;
 import java.util.Objects;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
@@ -23,8 +17,8 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
  * A HrBestSongDTO.
  */
 @JsonInclude(Include.NON_NULL)
-public class HrBestSongDTO  {
-
+public class HrBestSongDTO  implements Serializable{
+	private static final long serialVersionUID = 945037042675218714L;
     private Long id;
     
     @Size(max = 50)
