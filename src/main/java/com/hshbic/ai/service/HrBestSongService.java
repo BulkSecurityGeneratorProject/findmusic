@@ -1,11 +1,13 @@
 package com.hshbic.ai.service;
 
 
+import java.util.List;
 import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -85,6 +87,12 @@ public class HrBestSongService{
 
     public Page<HrBestSongDTO> findAllByType(Pageable pageable,String type){
       return hrBestSongRepository.findAllByType(pageable,type).map(hrBestSongMapper::toDto);
+    }
+    
+    public  void replace(List<HrBestSongDTO> list,String type) {
+		hrBestSongRepository.findAllByType(PageRequest.of(0, Integer.MAX_VALUE), type).getContent()
+				.forEach(dto -> delete(dto.getId()));
+		list.stream().forEach(dto -> save(dto));
     }
 	
 }

@@ -1,5 +1,7 @@
 package com.hshbic.ai.web.rest;
 
+import java.util.List;
+
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.sort.SortBuilder;
@@ -9,12 +11,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.data.elasticsearch.core.query.SearchQuery;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,12 +33,26 @@ import com.hshbic.ai.service.dto.MusicDTO;
 @RequestMapping(value ="/ai-music-service/api/v1")
 public class MusicResource{
 	private static Logger log = LoggerFactory.getLogger(MusicResource.class);
-	
+	private static final String ReplaceToken = "xH5n2Y3m9";
 	@Autowired
     private ElasticsearchTemplate esTemplate; 
 	
 	@Autowired
     private HrBestSongService bestSongService; 
+	
+	
+	@RequestMapping(value = "/replace/{type}/{token}", method = RequestMethod.POST)
+	public  String replace(@RequestBody List<HrBestSongDTO> list,@PathVariable String type, @PathVariable String token) {
+		if(!token.equals(ReplaceToken))
+			return "token is wrong";
+		if(StringUtils.isEmpty(type)) {
+			return "type is wrong";
+		}
+		bestSongService.replace(list, type);
+		return "success";
+	}
+	
+	
 	
 /*
 page，第几页，从0开始，默认为第0页
