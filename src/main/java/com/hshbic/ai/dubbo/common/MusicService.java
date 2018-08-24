@@ -43,7 +43,9 @@ public class MusicService implements LocalCommonService{
 		BoolQueryBuilder bqb = QueryBuilders.boolQuery();
 		boolean randomFlag = true;
 		if(!StringUtils.isEmpty(params.get("singer"))) {
-			bqb.must(QueryBuilders.termQuery("singer.keyword",(String)params.get("singer")));
+			//兼容GEM 邓紫棋，改为模糊匹配
+			bqb.must(QueryBuilders.matchPhraseQuery("singer",(String)params.get("singer")));
+			//bqb.must(QueryBuilders.termQuery("singer.keyword",(String)params.get("singer")));
 			randomFlag = false;
 		}
 		if(!StringUtils.isEmpty(params.get("song"))) {
