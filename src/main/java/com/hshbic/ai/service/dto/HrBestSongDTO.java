@@ -39,7 +39,6 @@ public class HrBestSongDTO  implements Serializable{
     @Size(max = 50)
     private String miguId;
     
-    @JsonIgnore
     @Size(max = 30)
     private String type;
     
