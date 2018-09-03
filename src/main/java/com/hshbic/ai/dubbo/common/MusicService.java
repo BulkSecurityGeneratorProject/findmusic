@@ -1,6 +1,7 @@
 package com.hshbic.ai.dubbo.common;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.elasticsearch.index.query.BoolQueryBuilder;
@@ -60,13 +61,13 @@ public class MusicService implements LocalCommonService{
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		if(source!=null||randomFlag) {//歌手与歌曲都为空则返回云端精选100首
 			int returnSize = 100;
-			Page<HrBestSongDTO> bestSongPage = bestSongService.findAllByType(PageRequest.of(0, returnSize),source==null?"cloud":source);
+			List<HrBestSongDTO> bestSongPage = bestSongService.findAllByType(source==null?"cloud":source,returnSize);
 			resultMap.put("isFree", Boolean.TRUE);
-			resultMap.put("content", JSONObject.toJSON(bestSongPage.getContent()));
-			resultMap.put("first", bestSongPage.isFirst());
-		    resultMap.put("numberOfElements", bestSongPage.getNumberOfElements());
-		    resultMap.put("last", bestSongPage.isLast());
-			resultMap.put("totalElements" , bestSongPage.getTotalElements());
+			resultMap.put("content", JSONObject.toJSON(bestSongPage));
+			resultMap.put("first", true);//bestSongPage.isFirst()
+		    resultMap.put("numberOfElements", bestSongPage.size());//bestSongPage.getNumberOfElements()
+		    resultMap.put("last", true);//bestSongPage.isLast()
+			resultMap.put("totalElements" , bestSongPage.size());//bestSongPage.getTotalElements()
 			log.info("bestSong resultMap:{}",resultMap);
 			return resultMap;
 		}

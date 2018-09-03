@@ -3,6 +3,7 @@ package com.hshbic.ai.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -85,9 +86,10 @@ public class HrBestSongService{
         hrBestSongRepository.deleteById(id);
     }
 
-    public Page<HrBestSongDTO> findAllByType(Pageable pageable,String type){
-      return hrBestSongRepository.findAllByType(pageable,type).map(hrBestSongMapper::toDto);
-    }
+	public List<HrBestSongDTO> findAllByType(String type,int returnSize) {
+		return hrBestSongRepository.findAllByTypeOrderByRand(type, returnSize).stream()
+				.map(song -> hrBestSongMapper.toDto(song)).collect(Collectors.toList());
+	}
     
     public  void replace(List<HrBestSongDTO> list,String type) {
 		hrBestSongRepository.findAllByType(PageRequest.of(0, Integer.MAX_VALUE), type).getContent()
