@@ -18,10 +18,10 @@ logging:
         ROOT: INFO
         io.github.jhipster: INFO
         com.hshbic.ai: INFO
-    file: /logs/findmusic/app.log    
+    file: /logs/findmusic/app189.log    
 spring:
     profiles:
-        active: stg
+        active: stg189
         include: swagger
     devtools:
         restart:
@@ -60,7 +60,7 @@ spring:
                     data: target/elasticsearch/data
     mail:
         host: localhost
-        port: 25
+        port: 2500
         username:
         password:
     messages:
@@ -73,7 +73,7 @@ dubbo:
         address: 172.17.6.52:2181,172.17.6.52:2182,172.17.6.52:2183,172.17.6.52:2184,172.17.6.52:2185
         id: music-registry-01
     protocol:
-        port: 12345
+        port: 12346
         name: dubbo
         id: dubbo
         status: server
@@ -81,7 +81,7 @@ dubbo:
         name: music-dubbo-provider-name1
         id: music-dubbo-provider-id1
         qos-enable: true
-        qos-port: 22222
+        qos-port: 22223
     scan:
         basePackages: com.hshbic.ai.dubbo.common
 
@@ -103,7 +103,7 @@ dubbo:
 #        key-alias: findmusic
 # ===================================================================
 server:
-    port: 8080
+    port: 8189
 
 # ===================================================================
 # JHipster specific properties
@@ -135,7 +135,7 @@ jhipster:
                 token-validity-in-seconds-for-remember-me: 2592000
     mail: # specific JHipster mail property, for standard properties see MailProperties
         from: findmusic@localhost
-        base-url: http://127.0.0.1:8080
+        base-url: http://127.0.0.1:8189
     metrics: # DropWizard Metrics configuration, used by MetricsConfiguration
         jmx:
             enabled: true
@@ -146,7 +146,7 @@ jhipster:
         logstash: # Forward logs to logstash over a socket, used by LoggingConfiguration
             enabled: false
             host: localhost
-            port: 5000
+            port: 5189
             queue-size: 512
 
 # ===================================================================
